@@ -1,113 +1,98 @@
 window.onload = function() {
-      var element = document.getElementById("board");
-      var c = element.children;
-      var statusel = document.getElementById("status");
-      var newgamebtn = document.getElementsByClassName("btn")[0];
-//      var i;
-        var state = true;
+    var element = document.getElementById("board");
+    var c = element.children;
+    var statusel = document.getElementById("status");
+    var newgamebtn = document.getElementsByClassName("btn")[0];
+    var state = true;
     
-      for (let i = 0; i < c.length; i++) {
-          
-              c[i].classList.add("square");
+    for (let i = 0; i < c.length; i++) {
+        c[i].classList.add("square");
+//        
         c[i].onmouseover = function()  {
-            state = onhovering(c[i],state);
-            if (state == true){
-                state=false;
-            }else if (state == false){
-                state=true;
-            }};
-      c[i].onmouseleave = function() {
-          leavehovering(c[i]);
-          if(awinner(c,statusel) == 1){
-             element.style.pointerEvents = "none"; 
-          };
-      }
-    
+            onhovering(c[i],state);
+            //state = !state;
+        };
+//        
+        c[i].onmouseleave = function() {
+            leavehovering(c[i]);
+            if(awinner(c,statusel) == 1){
+                element.style.pointerEvents = "none"; 
+            }
+        }
+        c[i].onclick = function() {
+            console.log('helloooo');
+            addclass(c[i],state);
+            c[i].classList.remove("hover");
+            state = !state;
 
-    newgamebtn.onclick = function () {state = newgame(c,statusel)
-                                    element.style.pointerEvents = "auto"; 
+        }
+    
+        newgamebtn.onclick = function () {
+            state = newgame(c,statusel)
+            element.style.pointerEvents = "auto"; 
 
-                                     };
-    
-    
-    
-}};
+        };
+    }
+
+};
 
 // FUNCTIONS
 
 
 function leavehovering(c) {
     c.classList.remove("hover");
- c.onclick = null;
 
 }
- function onhovering(c,state){
-      console.log(c.innerHTML);
+
+function onhovering(c,state){
+    console.log(c.innerHTML);
     if(c.innerHTML == "X" || c.innerHTML == "O"){
-        c.innerHTML = c.innerHTML;}
-     else{
-                        c.classList.add("hover");
-
-                       c.onclick = function() {
-                    state=addclass(c,state);
-                      c.classList.remove("hover");
-
-                        }
-  
-        }
-     return state;
+        c.innerHTML = c.innerHTML;
+    } else {
+        c.classList.add("hover");
      
+    }
+    return state;     
  }
 function addclass(c,state) {
-//    if(c.className === "square X"){
-//                c.classList.remove("X");
-//                c.classList.add("O");
-//                c.innerHTML='O';
-//                
-//            } else if(c.className=== "square O"){
-//                c.classList.remove("O");
-//                c.classList.add("X");
-//                c.innerHTML='X';
-//        
-//            }
-//            else{
-//                 c.classList.add("X");
-//                c.innerHTML='X';
-//            }
-       if(state === true){
-//                c.classList.remove("X");
-                c.classList.add("X");
-                c.innerHTML='X';
-                c.onclick=null;
-                return true;
+    
+    if(state){
+        if(c.innerHTML == "X" || c.innerHTML == "O"){
+        c.innerHTML = c.innerHTML;
+    }else{
+       
+        c.classList.add("X");
+        c.innerHTML='X'; 
+    }
                 
-            } else if(state === false){
-                c.classList.add("O");
-                c.innerHTML='O';
-                c.onclick=null;
-                return false;
+    } else {
+         if(c.innerHTML == "X" || c.innerHTML == "O"){
+        c.innerHTML = c.innerHTML;
+    }else{
+         c.classList.add("O");
+        c.innerHTML='O';
         
-            }
-//            else{
-//                 c.classList.add("X");
-//                c.innerHTML='X';
-//            }
+    }
+       
+        
+    }
+
 }
 
 
 function newgame(c,status) {
+    
     for (let i = 0; i < c.length; i++) {
-            c[i].innerHTML = "";
-            c[i].classList.remove("X");
-            c[i].classList.remove("O");
-            c[i].onclick = function () {whenClicked(children[i], i)};
+        c[i].innerHTML = "";
+        c[i].classList.remove("X");
+        c[i].classList.remove("O");
         status.innerHTML = "Move your mouse over a square and click to play an X or an O.";
         status.classList.remove("you-won");
-        
-        }
+//        c[i].onclick=
+    }
         
     return true;
-    }
+}
 
 function awinner(c,status){
     if(c[0].innerHTML == "X" && c[1].innerHTML == "X" && c[2].innerHTML == "X" ){
